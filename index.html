@@ -319,7 +319,6 @@
         }
 
         @keyframes float {
-
             0%,
             100% {
                 transform: translateX(-50%) translateY(0);
@@ -505,118 +504,140 @@
             gap: 8px;
         }
 
-        .prototype-images {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-
-        .proto-img {
-            width: 100px;
-            height: 100px;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 2px solid var(--accent);
-            transition: var(--transition);
-        }
-
-        .proto-img:hover {
-            transform: scale(1.05);
-            border-color: var(--green-success);
-        }
-
-        .proto-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .proto-description {
             text-align: center;
             opacity: 0.8;
             font-size: 0.75rem;
         }
 
-        /* --- FUNDADORES GRID --- */
-        .founders-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-            margin-top: 40px;
+        /* --- FUNDADORES GRID (SIMÉTRICO) --- */
+.founders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    max-width: 700px;
+    margin: 40px auto 0;
+}
+
+@media (min-width: 768px) {
+    .founders-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.founder-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 25px 20px;
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.founder-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.founder-name {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    color: var(--accent);
+}
+
+.founder-role {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.founder-bio {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+        /* --- MARCAS CARRUSEL --- */
+        .brands-slider-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+            position: relative;
         }
 
-        @media (min-width: 768px) {
-            .founders-grid {
-                grid-template-columns: repeat(3, 1fr);
+        .brands-track {
+            display: flex;
+            gap: 100px;
+            animation: scroll-brands 40s linear infinite;
+            width: max-content;
+            padding: 10px 0;
+        }
+
+        .brands-track-reverse {
+            animation: scroll-brands-reverse 40s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes scroll-brands {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
             }
         }
 
-        .founder-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 25px 20px;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid rgba(128, 128, 128, 0.1);
+        @keyframes scroll-brands-reverse {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
         }
 
-        .founder-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+        .brands-track:hover,
+        .brands-track-reverse:hover {
+            animation-play-state: paused;
         }
 
-        /* SIN AVATAR - solo texto */
-        .founder-name {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            color: var(--accent);
-        }
-
-        .founder-role {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .founder-bio {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .founder-functions {
-            text-align: left;
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(128, 128, 128, 0.1);
-        }
-
-        .founder-functions h4 {
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        .founder-functions ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .founder-functions li {
-            font-size: 0.75rem;
-            margin-bottom: 6px;
+        .brand-logo {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+            flex-shrink: 0;
+            transition: var(--transition);
+            opacity: 0.8;
         }
 
-        .founder-functions li i {
-            font-size: 0.6rem;
-            color: var(--accent);
+        .brand-logo:hover {
+            opacity: 1;
+            transform: translateY(-8px);
+        }
+
+        .brand-logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0 0 15px rgba(var(--accent-rgb), 0.3));
+        }
+
+        .brand-logo:hover img {
+            filter: drop-shadow(0 0 30px rgba(var(--accent-rgb), 0.7));
+            transform: scale(1.1);
+        }
+
+        .brand-logo span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text);
+            text-align: center;
         }
 
         /* --- CONTACTO --- */
@@ -800,76 +821,52 @@
             }
         }
 
-        /* --- RESPONSIVE MEJORADO --- */
+        /* --- RESPONSIVE MARCAS --- */
         @media (max-width: 768px) {
-            section {
-                padding: 50px 4%;
+            .brands-track-reverse {
+                display: none;
             }
 
-            h2 {
-                font-size: 1.6rem;
+            .brands-track {
+                gap: 50px;
+                animation: scroll-brands 25s linear infinite;
             }
 
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .brand-logo img {
+                width: 75px;
+                height: 75px;
             }
 
-            .project-card {
-                padding: 20px;
-            }
-
-            .proto-img {
-                width: 80px;
-                height: 80px;
-            }
-
-            .founder-card {
-                padding: 20px;
-            }
-
-            .hero {
-                min-height: 90vh;
-                padding: 60px 15px;
+            .brand-logo span {
+                font-size: 0.65rem;
+                letter-spacing: 2px;
             }
         }
 
         @media (max-width: 480px) {
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
+            .brands-track {
+                gap: 35px;
+                animation: scroll-brands 20s linear infinite;
             }
 
-            .btn-primary,
-            .btn-secondary {
-                width: 100%;
-                justify-content: center;
-                padding: 10px 20px;
+            .brand-logo img {
+                width: 60px;
+                height: 60px;
             }
 
-            .project-specs {
-                gap: 12px;
+            .brand-logo span {
+                font-size: 0.55rem;
             }
 
-            .spec-item i {
-                font-size: 1.1rem;
+            .project-card {
+                padding: 20px 15px;
             }
 
-            .spec-item span {
-                font-size: 0.65rem;
+            .project-description {
+                font-size: 0.85rem;
             }
 
-            .prototype-images {
-                gap: 8px;
-            }
-
-            .proto-img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .founder-functions li {
+            .proto-description {
                 font-size: 0.7rem;
             }
         }
@@ -889,7 +886,9 @@
         <a href="#vision">Visión</a>
         <a href="#about">Sobre MERTEK</a>
         <a href="#founder">Fundadores</a>
+        <a href="#brands">Divisiones</a>
         <a href="#contact">Contacto</a>
+        <a href="#unete">Únete</a>
     </div>
 
     <!-- Navegación -->
@@ -954,7 +953,7 @@
                         <span>Arduino Uno</span>
                     </div>
                     <div class="spec-item">
-                        <i class="fas fa-smile"></i>
+                        <i class="fas fa-bluetooth"></i>
                         <span>Bluetooth</span>
                     </div>
                     <div class="spec-item">
@@ -973,28 +972,13 @@
                     </span>
                 </div>
 
-                <!-- Imágenes del prototipo (estáticas) -->
                 <div class="prototype-info">
                     <div class="prototype-title">
-                        <i class="fas fa-image"></i> Prototipo en acción
-                    </div>
-                    <div class="prototype-images">
-                        <div class="proto-img">
-                            <img src=""
-                                alt="Robot Car vista 1">
-                        </div>
-                        <div class="proto-img">
-                            <img src=""
-                                alt="Robot Car vista 2">
-                        </div>
-                        <div class="proto-img">
-                            <img src=""
-                                alt="Robot Car componentes">
-                        </div>
+                        <i class="fas fa-microchip"></i> Componentes principales
                     </div>
                     <div class="proto-description">
-                        <i class="fas fa-microchip"></i> Chasis de plastico | Motor DC x4 | Módulo Bluetooth HC-05 |
-                        Batería recargable
+                        Chasis de plástico | Motoreductores x2 | Módulo Bluetooth HC-05 | Batería recargable
+                        | Arduino Uno.
                     </div>
                 </div>
             </div>
@@ -1063,50 +1047,115 @@
             </a>
         </div>
     </section>
+<!-- Fundadores -->
+<section id="founder">
+    <div class="section-header">
+        <span class="section-tag">04. Fundadores</span>
+        <h2>El equipo detrás de <span style="color:var(--accent)">MERTEK</span></h2>
+        <p class="section-subtitle">Jóvenes apasionados por la robótica y la innovación</p>
+    </div>
 
-    <!-- Fundadores - SIN IMÁGENES -->
-    <section id="founder">
-        <div class="section-header">
-            <span class="section-tag">04. Fundadores</span>
-            <h2>El equipo detrás de <span style="color:var(--accent)">MERTEK</span></h2>
-            <p class="section-subtitle">Jóvenes apasionados por la robótica y la innovación</p>
+    <div class="founders-grid">
+        <!-- Braulio Maroto - CEO -->
+        <div class="founder-card">
+            <h3 class="founder-name">Braulio Maroto</h3>
+            <div class="founder-role">CEO & Fundador</div>
+            <p class="founder-bio">Visión estratégica y liderazgo. Impulsa la dirección tecnológica y comercial de
+                MERTEK.</p>
         </div>
 
-        <div class="founders-grid">
-            <!-- Braulio Maroto - CEO (sin imagen) -->
-            <div class="founder-card">
-                <h3 class="founder-name">Braulio Maroto</h3>
-                <div class="founder-role">CEO & Fundador</div>
-                <p class="founder-bio">Visión estratégica y liderazgo. Impulsa la dirección tecnológica y comercial de
-                    MERTEK.</p>
+        <!-- David Candia - CMO -->
+        <div class="founder-card">
+            <h3 class="founder-name">David Candia</h3>
+            <div class="founder-role">CMO & Fundador</div>
+            <p class="founder-bio">Creatividad y conexión con la audiencia. Encargado de idear nuevas líneas y exponer la marca al mundo.</p>
+        </div>
+    </div>
 
+    <div style="text-align: center; margin-top: 50px; font-style: italic; font-size: 1rem; color: var(--accent);">
+        "Si lo imaginas, lo creas."
+    </div>
+</section>
 
-        <div style="text-align: center; margin-top: 50px; font-style: italic; font-size: 1rem; color: var(--accent);">
-            "Si lo imaginas, lo creas."
+    <!-- MARCAS / DIVISIONES MERTEK -->
+    <section id="brands">
+        <div class="section-header">
+            <span class="section-tag">05. Marcas | Divisiones</span>
+            <h2>Ecosistema <span style="color:var(--accent)">MERTEK</span></h2>
+            <p class="section-subtitle">Conoce las divisiones de MERTEK.</p>
+        </div>
+
+        <div class="brands-slider-container">
+            <!-- FILA 1 -->
+            <div class="brands-track" id="brandsTrack1">
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+            </div>
+
+            <!-- FILA 2 (solo visible en desktop) -->
+            <div class="brands-track brands-track-reverse" id="brandsTrack2">
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+                <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
+                <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
+                <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
+            </div>
         </div>
     </section>
 
     <!-- Contacto -->
     <section id="contact">
         <div class="section-header">
-            <span class="section-tag">05. Contacto</span>
+            <span class="section-tag">06. Contacto</span>
             <h2>Conversemos <span style="color:var(--accent)">sobre tu idea</span></h2>
             <p class="section-subtitle">¿Preguntas? ¿Propuestas? Estamos escuchando.</p>
         </div>
 
-        <form id="contactForm">
+        <form id="contactForm" action="https://formspree.io/f/xgodeqka" method="POST">
+            <input type="hidden" name="_next" value="https://mertekco.github.io/gracias.html">
+            <input type="hidden" name="_subject" value="Nuevo mensaje de MERTEK">
+
             <div class="form-group">
-                <input type="text" id="name" placeholder=" " required>
+                <input type="text" id="name" name="name" placeholder=" " required>
                 <label for="name">Nombre completo</label>
             </div>
 
             <div class="form-group">
-                <input type="email" id="email" placeholder=" " required>
+                <input type="email" id="email" name="email" placeholder=" " required>
                 <label for="email">Correo electrónico</label>
             </div>
 
             <div class="form-group">
-                <select id="interest" required>
+                <select id="interest" name="motivo" required>
                     <option value="" disabled selected></option>
                     <option value="proyecto">Información sobre el robot</option>
                     <option value="colaborar">Propuesta de colaboración</option>
@@ -1118,7 +1167,7 @@
             </div>
 
             <div class="form-group">
-                <textarea id="message" rows="4" placeholder=" " required></textarea>
+                <textarea id="message" name="mensaje" rows="4" placeholder=" " required></textarea>
                 <label for="message">Mensaje</label>
             </div>
 
@@ -1134,6 +1183,66 @@
             <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
             <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
         </div>
+    </section>
+
+    <!-- Únete al Equipo -->
+    <section id="unete">
+        <div class="section-header">
+            <span class="section-tag">07. Forma parte de nosotros</span>
+            <h2>Forma parte de <span style="color:var(--accent)">MERTEK</span></h2>
+            <p class="section-subtitle">Buscamos mentes creativas para construir el futuro.</p>
+        </div>
+
+        <div class="grid">
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Equipo</h3>
+                <p>Colabora con jóvenes apasionados por la tecnología y la robótica.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-brain"></i>
+                <h3>Aprendizaje</h3>
+                <p>Espacio para investigar, prototipar y desarrollar habilidades reales.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Impacto</h3>
+                <p>Tus ideas pueden convertirse en productos que compitan internacionalmente.</p>
+            </div>
+        </div>
+
+        <form id="formUnete" action="https://formspree.io/f/xdabojoj" method="POST">
+            <input type="hidden" name="_next" value="https://mertekco.github.io/gracias.html">
+            <input type="hidden" name="_subject" value="Solicitud de talento MERTEK">
+
+            <div class="form-group">
+                <input type="text" id="nombreTalento" name="nombre" placeholder=" " required>
+                <label for="nombreTalento">Nombre completo</label>
+            </div>
+            <div class="form-group">
+                <input type="email" id="emailTalento" name="email" placeholder=" " required>
+                <label for="emailTalento">Correo electrónico</label>
+            </div>
+            <div class="form-group">
+                <select id="areaTalento" name="area" required>
+                    <option value="" disabled selected></option>
+                    <option value="robotica">Robótica</option>
+                    <option value="programacion">Programación</option>
+                    <option value="diseno">Diseño</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="equipo">Registro de equipo</option>
+                    <option value="otro">Otro</option>
+                </select>
+                <label for="areaTalento">Área de interés</label>
+            </div>
+            <div class="form-group">
+                <textarea id="porqueTalento" name="porque" rows="3" placeholder=" " required></textarea>
+                <label for="porqueTalento">¿Por qué quieres unirte?</label>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-hand-sparkles"></i> QUIERO PARTICIPAR
+            </button>
+        </form>
     </section>
 
     <footer>
@@ -1258,24 +1367,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Formulario de contacto
+        // Formularios ya funcionales con Formspree (sin JS extra)
+        // Pero mantenemos el efecto visual de carga simulada
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
-            contactForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const submitBtn = this.querySelector('.submit-btn');
-                const originalText = submitBtn.innerHTML;
-
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
-                submitBtn.disabled = true;
-
+            contactForm.addEventListener('submit', function () {
+                const btn = this.querySelector('.submit-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+                btn.disabled = true;
                 setTimeout(() => {
-                    alert('¡Mensaje enviado! Nos pondremos en contacto en menos de 24 horas.');
-                    this.reset();
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 1500);
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR MENSAJE';
+                    btn.disabled = false;
+                }, 2000);
+            });
+        }
+
+        const formUnete = document.getElementById('formUnete');
+        if (formUnete) {
+            formUnete.addEventListener('submit', function () {
+                const btn = this.querySelector('.submit-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-hand-sparkles"></i> QUIERO PARTICIPAR';
+                    btn.disabled = false;
+                }, 2000);
             });
         }
 
