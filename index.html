@@ -511,53 +511,53 @@
         }
 
         /* --- FUNDADORES GRID (SIMÉTRICO) --- */
-.founders-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-    max-width: 700px;
-    margin: 40px auto 0;
-}
+        .founders-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            max-width: 700px;
+            margin: 40px auto 0;
+        }
 
-@media (min-width: 768px) {
-    .founders-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
+        @media (min-width: 768px) {
+            .founders-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
 
-.founder-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 25px 20px;
-    text-align: center;
-    transition: var(--transition);
-    border: 1px solid rgba(128, 128, 128, 0.1);
-}
+        .founder-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px 20px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(128, 128, 128, 0.1);
+        }
 
-.founder-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-}
+        .founder-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
 
-.founder-name {
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-    color: var(--accent);
-}
+        .founder-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
 
-.founder-role {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+        .founder-role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-.founder-bio {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    margin-bottom: 15px;
-}
+        .founder-bio {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
 
         /* --- MARCAS CARRUSEL --- */
         .brands-slider-container {
@@ -815,7 +815,6 @@
             0% {
                 transform: translateY(0) translateX(0);
             }
-
             100% {
                 transform: translateY(-100vh) translateX(100px);
             }
@@ -826,17 +825,14 @@
             .brands-track-reverse {
                 display: none;
             }
-
             .brands-track {
                 gap: 50px;
                 animation: scroll-brands 25s linear infinite;
             }
-
             .brand-logo img {
                 width: 75px;
                 height: 75px;
             }
-
             .brand-logo span {
                 font-size: 0.65rem;
                 letter-spacing: 2px;
@@ -848,27 +844,138 @@
                 gap: 35px;
                 animation: scroll-brands 20s linear infinite;
             }
-
             .brand-logo img {
                 width: 60px;
                 height: 60px;
             }
-
             .brand-logo span {
                 font-size: 0.55rem;
             }
-
             .project-card {
                 padding: 20px 15px;
             }
-
             .project-description {
                 font-size: 0.85rem;
             }
-
             .proto-description {
                 font-size: 0.7rem;
             }
+        }
+
+        /* --- MODAL SEDES (CORREGIDO) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(2px);
+            z-index: 4000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--card);
+            padding: 30px 25px;
+            border-radius: var(--radius);
+            width: 360px;
+            max-width: 90%;
+            text-align: center;
+            position: relative;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.25);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        #buscadorSede {
+            margin: 18px 0 12px;
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        #buscadorSede:focus {
+            border-color: var(--accent);
+        }
+
+        .sedes-lista {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .sedes-lista .sede-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 8px;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+            text-align: left;
+            transition: background 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .sede-item:hover {
+            background: rgba(128, 128, 128, 0.05);
+        }
+
+        .sede-item i {
+            color: var(--accent);
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sede-item.inactivo i {
+            color: var(--warning);
+            opacity: 0.5;
+        }
+
+        .sede-item span {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .sede-item.inactivo span {
+            opacity: 0.7;
+        }
+
+        .sede-item small {
+            display: block;
+            color: rgba(128, 128, 128, 0.7);
+            font-size: 0.75rem;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -1041,41 +1148,43 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 40px;">
+            <button class="btn-secondary" id="btnSedes">
+                <i class="fas fa-map-marker-alt"></i> VER SEDES
+            </button>
             <a href="#contact" class="btn-primary">
                 <i class="fas fa-paper-plane"></i> TRABAJA CON NOSOTROS
             </a>
         </div>
     </section>
-<!-- Fundadores -->
-<section id="founder">
-    <div class="section-header">
-        <span class="section-tag">04. Fundadores</span>
-        <h2>El equipo detrás de <span style="color:var(--accent)">MERTEK</span></h2>
-        <p class="section-subtitle">Jóvenes apasionados por la robótica y la innovación</p>
-    </div>
 
-    <div class="founders-grid">
-        <!-- Braulio Maroto - CEO -->
-        <div class="founder-card">
-            <h3 class="founder-name">Braulio Maroto</h3>
-            <div class="founder-role">CEO & Fundador</div>
-            <p class="founder-bio">Visión estratégica y liderazgo. Impulsa la dirección tecnológica y comercial de
-                MERTEK.</p>
+    <!-- Fundadores -->
+    <section id="founder">
+        <div class="section-header">
+            <span class="section-tag">04. Fundadores</span>
+            <h2>El equipo detrás de <span style="color:var(--accent)">MERTEK</span></h2>
+            <p class="section-subtitle">Jóvenes apasionados por la robótica y la innovación</p>
         </div>
 
-        <!-- David Candia - CMO -->
-        <div class="founder-card">
-            <h3 class="founder-name">David Candia</h3>
-            <div class="founder-role">CMO & Fundador</div>
-            <p class="founder-bio">Creatividad y conexión con la audiencia. Encargado de idear nuevas líneas y exponer la marca al mundo.</p>
-        </div>
-    </div>
+        <div class="founders-grid">
+            <div class="founder-card">
+                <h3 class="founder-name">Braulio Maroto</h3>
+                <div class="founder-role">CEO & Fundador</div>
+                <p class="founder-bio">Visión estratégica y liderazgo. Impulsa la dirección tecnológica y comercial de
+                    MERTEK.</p>
+            </div>
 
-    <div style="text-align: center; margin-top: 50px; font-style: italic; font-size: 1rem; color: var(--accent);">
-        "Si lo imaginas, lo creas."
-    </div>
-</section>
+            <div class="founder-card">
+                <h3 class="founder-name">David Candia</h3>
+                <div class="founder-role">CMO & Fundador</div>
+                <p class="founder-bio">Creatividad y conexión con la audiencia. Encargado de idear nuevas líneas y exponer la marca al mundo.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; font-style: italic; font-size: 1rem; color: var(--accent);">
+            "Si lo imaginas, lo creas."
+        </div>
+    </section>
 
     <!-- MARCAS / DIVISIONES MERTEK -->
     <section id="brands">
@@ -1086,7 +1195,6 @@
         </div>
 
         <div class="brands-slider-container">
-            <!-- FILA 1 -->
             <div class="brands-track" id="brandsTrack1">
                 <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
                 <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
@@ -1108,7 +1216,6 @@
                 <div class="brand-logo"><img src="logo3.png" alt="MERTEK Corp"><span>Corp</span></div>
             </div>
 
-            <!-- FILA 2 (solo visible en desktop) -->
             <div class="brands-track brands-track-reverse" id="brandsTrack2">
                 <div class="brand-logo"><img src="logo1.png" alt="KOM"><span>KOM</span></div>
                 <div class="brand-logo"><img src="logo2.png" alt="Bspace"><span>Bspace</span></div>
@@ -1246,7 +1353,7 @@
     </section>
 
     <footer>
-        MERTEK ROBOTICS © 2026 
+        MERTEK ROBOTICS © 2026
     </footer>
 
     <!-- Botón flotante -->
@@ -1256,6 +1363,27 @@
 
     <!-- Partículas -->
     <div class="particles" id="particles"></div>
+
+    <!-- Modal Sedes (colocado antes del script) -->
+    <div class="modal-overlay" id="modalSedes">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h3>Sedes <span style="color:var(--accent)">MERTEK</span></h3>
+            <input type="text" id="buscadorSede" placeholder="Buscar ciudad..." autocomplete="off">
+            <div class="sedes-lista" id="sedesLista">
+                <div class="sede-item" data-ciudad="juárez">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Juárez</span>
+                    <small></small>
+                </div>
+               <div class="sede-item inactivo" data-ciudad="próximamente" id="btnAbrirSede" style="cursor: pointer;">
+    <i class="fas fa-map-pin"></i>
+    <span>¿Tienes un equipo?</span>
+    <small>Haz clic para registrar tu sede</small>
+</div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Loader
@@ -1271,12 +1399,10 @@
             const current = body.getAttribute('data-theme');
             const newTheme = current === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', newTheme);
-
             const themeIcon = document.querySelector('.theme-btn i');
             if (themeIcon) {
                 themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
             }
-
             localStorage.setItem('theme', newTheme);
         }
 
@@ -1293,14 +1419,12 @@
         // Menú móvil
         const burger = document.getElementById('burger');
         const mobileMenu = document.getElementById('mobileMenu');
-
         if (burger && mobileMenu) {
             burger.addEventListener('click', () => {
                 burger.classList.toggle('active');
                 mobileMenu.classList.toggle('active');
                 document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
             });
-
             document.querySelectorAll('.mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     burger.classList.remove('active');
@@ -1319,7 +1443,6 @@
                 }
             });
         }, { threshold: 0.1 });
-
         sections.forEach(section => observer.observe(section));
 
         // Efectos de scroll
@@ -1328,9 +1451,7 @@
             const heroBg = document.getElementById('heroBg');
             const navbar = document.getElementById('navbar');
             const floatBtn = document.getElementById('floatBtn');
-
             if (heroBg) heroBg.style.transform = `translateY(${scroll * 0.5}px)`;
-
             if (navbar) {
                 if (scroll > 100) {
                     navbar.classList.add('scrolled');
@@ -1338,7 +1459,6 @@
                     navbar.classList.remove('scrolled');
                 }
             }
-
             if (floatBtn) {
                 if (scroll > 500) {
                     floatBtn.classList.add('visible');
@@ -1367,8 +1487,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Formularios ya funcionales con Formspree (sin JS extra)
-        // Pero mantenemos el efecto visual de carga simulada
+        // Formularios con efecto de carga
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', function () {
@@ -1399,7 +1518,6 @@
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             if (!particlesContainer) return;
-
             for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1422,12 +1540,67 @@
                 const label = this.parentElement?.querySelector('label');
                 if (label) label.style.color = 'var(--accent)';
             });
-
             field.addEventListener('blur', function () {
                 const label = this.parentElement?.querySelector('label');
                 if (label && !this.value) label.style.color = '';
             });
         });
+
+        // --- Modal de Sedes (CORREGIDO Y MEJORADO) ---
+        const btnSedes = document.getElementById('btnSedes');
+        const modal = document.getElementById('modalSedes');
+        const closeModal = document.getElementById('closeModal');
+        const buscador = document.getElementById('buscadorSede');
+        const items = document.querySelectorAll('.sede-item');
+
+        if (btnSedes && modal) {
+            btnSedes.addEventListener('click', () => {
+                modal.classList.add('active');
+            });
+        }
+
+        if (closeModal && modal) {
+            closeModal.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+        }
+
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+
+        if (buscador && items.length > 0) {
+            buscador.addEventListener('input', (e) => {
+                const termino = e.target.value.toLowerCase().trim();
+                items.forEach(item => {
+                    const ciudad = item.dataset.ciudad;
+                    item.style.display = (ciudad && ciudad.includes(termino)) ? 'flex' : 'none';
+                });
+            });
+        }
+        // Al hacer clic en "Formar un equipo", cierra el modal y va a Únete
+const btnAbrirSede = document.getElementById('btnAbrirSede');
+if (btnAbrirSede) {
+    btnAbrirSede.addEventListener('click', () => {
+        // 1. Cerrar el modal
+        if (modal) modal.classList.remove('active');
+        // 2. Navegar suavemente a la sección Únete
+        const seccionUnete = document.getElementById('unete');
+        if (seccionUnete) {
+            seccionUnete.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // 3. Preseleccionar "Registro de equipo" en el select
+            const areaSelect = document.getElementById('areaTalento');
+            if (areaSelect) {
+                areaSelect.value = 'equipo'; // valor de "Registro de equipo"
+            }
+        }
+    });
+}
+
     </script>
 </body>
 
