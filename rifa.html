@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>RIFA 200 NÚMEROS</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050505;
+            --text: #ffffff;
+            --accent: #00f2ff;
+            --card: #111111;
+            --gold: #ffd700;
+            --sold: #c0392b;
+            --available: #00c853;
+            --selected: #00f2ff;
+            --whatsapp: #25D366;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        body.loaded { opacity: 1; }
+        .fade-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .fade-loader.hidden { opacity: 0; visibility: hidden; }
+        .fade-loader .circle {
+            width: 40px; height: 40px;
+            border: 3px solid var(--accent); border-top-color: transparent;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5,5,5,0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 1000;
+        }
+        .nav-title { font-weight: 900; letter-spacing: 4px; font-size: 0.9rem; }
+        .nav-title i { color: var(--gold); margin-right: 6px; }
+
+        .main-container { padding: 100px 20px 40px; max-width: 900px; margin: 0 auto; }
+        .raffle-header { text-align: center; margin-bottom: 30px; }
+        .raffle-badge {
+            display: inline-block; padding: 6px 20px;
+            background: rgba(255,215,0,0.15); color: var(--gold);
+            border: 1px solid var(--gold); border-radius: 30px;
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 3px; margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(255,215,0,0); }
+        }
+        .raffle-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 900; }
+        .raffle-title span { color: var(--gold); }
+        .raffle-prize { font-size: 1.2rem; color: var(--accent); margin: 10px 0; }
+        .raffle-price {
+            display: inline-block; background: var(--card); padding: 10px 25px;
+            border-radius: 30px; font-size: 1rem; font-weight: 700;
+            border: 1px solid var(--gold); margin-top: 10px;
+        }
+        .raffle-price span { color: var(--gold); font-size: 1.4rem; }
+
+        .info-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+            gap: 12px; margin-bottom: 30px;
+        }
+        .info-card {
+            background: var(--card); padding: 18px; border-radius: 12px;
+            text-align: center; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .info-card i { font-size: 1.4rem; color: var(--accent); margin-bottom: 6px; }
+        .info-card h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+        .info-card p { font-size: 1.3rem; font-weight: 700; }
+
+        .legend { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 25px; font-size: 0.75rem; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-dot { width: 14px; height: 14px; border-radius: 4px; }
+        .legend-dot.available { background: var(--available); }
+        .legend-dot.sold { background: var(--sold); }
+        .legend-dot.selected { background: var(--selected); box-shadow: 0 0 10px var(--selected); }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+            gap: 6px; margin-bottom: 30px;
+        }
+        @media (max-width: 480px) {
+            .numbers-grid { grid-template-columns: repeat(10, 1fr); gap: 4px; }
+        }
+        .number-btn {
+            aspect-ratio: 1;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.8rem; border-radius: 8px;
+            cursor: pointer; transition: all 0.3s;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            background: var(--card); color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+        .number-btn.available { border-color: rgba(0,200,83,0.4); }
+        .number-btn.available:hover { border-color: var(--available); transform: translateY(-2px); }
+        .number-btn.sold {
+            background: rgba(192,57,43,0.2); border-color: rgba(192,57,43,0.5);
+            color: #e74c3c; cursor: not-allowed; text-decoration: line-through; opacity: 0.7;
+        }
+        .number-btn.selected {
+            background: rgba(0,242,255,0.2); border-color: var(--selected);
+            box-shadow: 0 0 15px rgba(0,242,255,0.5); transform: scale(1.05);
+        }
+
+        .selection-panel {
+            background: var(--card); border-radius: 12px; padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px;
+        }
+        .selected-numbers { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; min-height: 35px; }
+        .selected-tag {
+            background: rgba(0,242,255,0.2); border: 1px solid var(--selected);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .selected-tag .remove-num { cursor: pointer; color: #ff5555; }
+        .total-display { text-align: center; font-size: 1.1rem; margin: 10px 0; }
+        .total-display span { color: var(--gold); font-size: 1.6rem; }
+        .action-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; justify-content: center; }
+        .btn {
+            padding: 12px 25px; border-radius: 30px; font-weight: 700;
+            font-size: 0.75rem; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px; border: none;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-clear { background: transparent; color: #ff5555; border: 1px solid #ff5555; }
+        .btn-clear:hover { background: #ff5555; color: #fff; }
+        .btn-whatsapp { background: var(--whatsapp); color: #fff; }
+        .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37,211,102,0.4); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .tiktok-section {
+            background: var(--card); border-radius: 12px; padding: 25px;
+            text-align: center; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .tiktok-section i { font-size: 2rem; color: #ff0050; margin-bottom: 10px; }
+        .tiktok-section h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .tiktok-section a {
+            color: var(--accent); text-decoration: none; font-weight: 600;
+            border-bottom: 1px dashed var(--accent);
+        }
+
+        /* Advertencia de seguridad */
+        .security-badge {
+            text-align: center; margin-top: 20px; font-size: 0.7rem;
+            opacity: 0.6; display: flex; justify-content: center; gap: 15px;
+            flex-wrap: wrap;
+        }
+        .security-badge i { color: var(--gold); margin-right: 4px; }
+        
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader fade -->
+    <div class="fade-loader" id="fadeLoader"><div class="circle"></div></div>
+
+    <nav>
+        <div class="nav-title"><i class="fas fa-ticket-alt"></i> RIFA GORRA NEW ERA</div>
+    </nav>
+
+    <div class="main-container">
+        <div class="raffle-header">
+            <div class="raffle-badge"><i class="fas fa-star"></i> RIFA OFICIAL</div>
+            <h1 class="raffle-title">GRAN <span>RIFA</span></h1>
+            <p class="raffle-prize"><i class="fas fa-gift"></i> 🧢 GORRA NEW ERA</p>
+            <div class="raffle-price">Número: <span id="unitPrice">$50.00</span> MXN</div>
+        </div>
+
+        <div class="info-cards">
+            <div class="info-card"><i class="fas fa-hashtag"></i><h3>Total</h3><p>200</p></div>
+            <div class="info-card"><i class="fas fa-check-circle"></i><h3>Libres</h3><p id="freeCount">200</p></div>
+            <div class="info-card"><i class="fas fa-times-circle"></i><h3>Ocupados</h3><p id="soldCount">0</p></div>
+            <div class="info-card"><i class="fas fa-shopping-cart"></i><h3>Elegidos</h3><p id="selectedCount">0</p></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot available"></div> Libre</div>
+            <div class="legend-item"><div class="legend-dot sold"></div> Ocupado</div>
+            <div class="legend-item"><div class="legend-dot selected"></div> Tu selección</div>
+        </div>
+
+        <h3 style="text-align:center;margin-bottom:15px;letter-spacing:2px;font-size:0.85rem;">SELECCIONA TUS NÚMEROS</h3>
+        <div class="numbers-grid" id="numbersGrid"></div>
+
+        <div class="selection-panel">
+            <h3 style="margin-bottom:10px;"><i class="fas fa-star"></i> Tu selección</h3>
+            <div class="selected-numbers" id="selectedNumbers"></div>
+            <div class="total-display">Total: <span id="totalPrice">$0.00</span> MXN</div>
+            <div class="action-buttons">
+                <button class="btn btn-clear" id="btnClear" disabled><i class="fas fa-trash"></i> Limpiar</button>
+                <button class="btn btn-whatsapp" id="btnWhatsApp" disabled><i class="fab fa-whatsapp"></i> Apartar por WhatsApp</button>
+            </div>
+        </div>
+
+        <div class="tiktok-section">
+            <i class="fab fa-tiktok"></i>
+            <h3>La rifa se transmitirá en vivo</h3>
+            <p>Síguenos en <a href="https://www.tiktok.com/@mrcandia8" target="_blank" rel="noopener noreferrer">@mrcandia8</a></p>
+            <p style="font-size:0.8rem;opacity:0.7;margin-top:8px;">Fecha: xx de junio · 8:00 PM (hora MX)</p>
+        </div>
+
+        <div class="security-badge">
+            <span><i class="fas fa-shield-alt"></i> Datos en tiempo real</span>
+            <span><i class="fas fa-lock"></i> Conexión segura</span>
+            <span><i class="fab fa-whatsapp"></i> Apartado por WhatsApp</span>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDYITuuQL-NILnBWtCQ1sXxZiVr-IS7OM",
+            authDomain: "mertekapp.firebaseapp.com",
+            projectId: "mertekapp",
+            storageBucket: "mertekapp.firebasestorage.app",
+            messagingSenderId: "715733849561",
+            appId: "1:715733849561:web:0a4ac6cf76d21d57cb75c8",
+            measurementId: "G-C3FLPCQ8WZ"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const TOTAL_NUMBERS = 200;
+        const PRICE_PER_NUMBER = 50;
+        const COLLECTION = 'raffle_numbers';
+        const WHATSAPP_NUMBER = "5216568236752";
+        const WHATSAPP_MESSAGE = "🎫 *APARTADO DE NÚMEROS - RIFA* 🎫%0A%0A¡Hola! Quiero apartar los siguientes números:%0A%0A";
+
+        let soldNumbers = new Set();
+        let selectedNumbers = new Set();
+        let isConnected = true;
+
+        // Detectar conexión
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            setTimeout(() => {
+                document.getElementById('fadeLoader').classList.add('hidden');
+            }, 600);
+            initFirebase();
+            
+            // Detectar si hay conexión a internet
+            window.addEventListener('online', () => updateConnectionStatus(true));
+            window.addEventListener('offline', () => updateConnectionStatus(false));
+        });
+
+        function updateConnectionStatus(connected) {
+            isConnected = connected;
+            if (!connected) {
+                const msg = document.createElement('div');
+                msg.id = 'offlineAlert';
+                msg.style.cssText = 'position:fixed;bottom:20px;left:20px;right:20px;background:#c0392b;color:white;padding:12px;border-radius:8px;text-align:center;z-index:9999;font-size:0.8rem;';
+                msg.innerHTML = '<i class="fas fa-wifi"></i> Sin conexión. Los datos se actualizarán cuando vuelvas a internet.';
+                if (!document.getElementById('offlineAlert')) document.body.appendChild(msg);
+            } else {
+                const alert = document.getElementById('offlineAlert');
+                if (alert) alert.remove();
+            }
+        }
+
+        function initFirebase() {
+            db.collection(COLLECTION).onSnapshot(snapshot => {
+                soldNumbers.clear();
+                snapshot.forEach(doc => {
+                    soldNumbers.add(doc.id);
+                });
+                renderGrid();
+                updateCounters();
+            }, error => {
+                console.error("Error de conexión a Firebase:", error);
+                if (error.code === 'permission-denied') {
+                    alert("Error de permisos en la base de datos. Contacta al administrador.");
+                } else {
+                    alert("Error de conexión. Recarga la página.");
+                }
+            });
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('numbersGrid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= TOTAL_NUMBERS; i++) {
+                const numStr = i.toString();
+                const btn = document.createElement('div');
+                btn.className = 'number-btn';
+                btn.textContent = i.toString().padStart(3, '0');
+                btn.dataset.number = numStr;
+
+                if (soldNumbers.has(numStr)) {
+                    btn.classList.add('sold');
+                } else if (selectedNumbers.has(numStr)) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.add('available');
+                }
+
+                btn.addEventListener('click', () => toggleNumber(numStr));
+                grid.appendChild(btn);
+            }
+        }
+
+        function toggleNumber(numStr) {
+            if (soldNumbers.has(numStr)) return;
+            
+            if (selectedNumbers.has(numStr)) {
+                selectedNumbers.delete(numStr);
+            } else {
+                selectedNumbers.add(numStr);
+            }
+            renderGrid();
+            updateSelectionPanel();
+            updateCounters();
+        }
+
+        function updateSelectionPanel() {
+            const container = document.getElementById('selectedNumbers');
+            if (selectedNumbers.size === 0) {
+                container.innerHTML = '<span style="color:#666;font-style:italic;">No has seleccionado números</span>';
+            } else {
+                const sorted = [...selectedNumbers].sort((a,b) => Number(a)-Number(b));
+                container.innerHTML = sorted.map(num => `
+                    <span class="selected-tag">
+                        ${num.padStart(3,'0')}
+                        <span class="remove-num" data-num="${num}"><i class="fas fa-times-circle"></i></span>
+                    </span>
+                `).join('');
+                document.querySelectorAll('.remove-num').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const num = btn.dataset.num;
+                        selectedNumbers.delete(num);
+                        renderGrid();
+                        updateSelectionPanel();
+                        updateCounters();
+                    });
+                });
+            }
+
+            const total = selectedNumbers.size * PRICE_PER_NUMBER;
+            document.getElementById('totalPrice').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('btnClear').disabled = selectedNumbers.size === 0;
+            document.getElementById('btnWhatsApp').disabled = selectedNumbers.size === 0;
+            document.getElementById('selectedCount').textContent = selectedNumbers.size;
+        }
+
+        function updateCounters() {
+            document.getElementById('freeCount').textContent = TOTAL_NUMBERS - soldNumbers.size;
+            document.getElementById('soldCount').textContent = soldNumbers.size;
+        }
+
+        // Limpiar selección
+        document.getElementById('btnClear').addEventListener('click', () => {
+            selectedNumbers.clear();
+            renderGrid();
+            updateSelectionPanel();
+            updateCounters();
+        });
+
+        // WhatsApp con validación extra
+        document.getElementById('btnWhatsApp').addEventListener('click', () => {
+            if (selectedNumbers.size === 0) return;
+            
+            // Verificar que los números no se hayan vendido en el momento
+            const stillAvailable = [...selectedNumbers].every(num => !soldNumbers.has(num));
+            
+            if (!stillAvailable) {
+                alert("⚠️ Algunos números seleccionados ya fueron apartados. Se actualizará la lista.");
+                // Filtrar solo los disponibles
+                const newSelected = [...selectedNumbers].filter(num => !soldNumbers.has(num));
+                selectedNumbers.clear();
+                newSelected.forEach(num => selectedNumbers.add(num));
+                renderGrid();
+                updateSelectionPanel();
+                updateCounters();
+                
+                if (selectedNumbers.size === 0) return;
+            }
+            
+            const sorted = [...selectedNumbers].sort((a,b) => Number(a)-Number(b));
+            const numbersList = sorted.join(', ');
+            const total = selectedNumbers.size * PRICE_PER_NUMBER;
+            
+            const message = `${WHATSAPP_MESSAGE}📌 *Números:* ${numbersList}%0A💰 *Total:* $${total.toFixed(2)} MXN%0A%0A✅ Confirmo mi apartado y realizaré el pago.`;
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+            window.open(url, '_blank');
+            
+            // Opcional: limpiar selección después de enviar (descomentar si quieres)
+            // selectedNumbers.clear();
+            // renderGrid();
+            // updateSelectionPanel();
+            // updateCounters();
+        });
+
+        // Prevenir XSS y validar inputs
+        const originalAlert = window.alert;
+        window.alert = function(msg) {
+            const sanitized = String(msg).replace(/[<>]/g, '');
+            originalAlert(sanitized);
+        };
+    </script>
+</body>
+</html>
