@@ -20,6 +20,7 @@
 
         :root {
             --bg: #ffffff;
+            --bg-rgb: 255, 255, 255;
             --surface: #f8fafc;
             --text: #0a0a0a;
             --text-dim: #3a3a3a;
@@ -30,6 +31,7 @@
 
         [data-theme="dark"] {
             --bg: #0a0a0a;
+            --bg-rgb: 10, 10, 10;
             --surface: #141414;
             --text: #f0f0f0;
             --text-dim: #a0a0a0;
@@ -46,6 +48,8 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
+
+        body.modal-open { overflow: hidden; }
 
         .loader {
             position: fixed;
@@ -289,6 +293,356 @@
             text-transform: uppercase;
         }
 
+        /* ============================
+           CREACIONES / PROYECTOS
+           ============================ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            margin-top: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 30px 26px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.45s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: var(--card-shadow);
+        }
+        .project-card:hover::before { transform: scaleX(1); }
+
+        /* Logo configurable */
+        .project-logo {
+            width: 74px;
+            height: 74px;
+            border-radius: 22px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .project-card:hover .project-logo {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        .project-logo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+        .project-logo .logo-fallback {
+            font-size: 1.7rem;
+            color: var(--accent);
+            opacity: 0.55;
+        }
+
+        .project-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+        .project-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+        }
+        .project-status.dev .dot {
+            background: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+        .project-status.beta .dot {
+            background: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .project-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .project-desc {
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: var(--text-dim);
+            margin-bottom: 18px;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+            margin-bottom: 18px;
+        }
+        .project-tag {
+            font-size: 0.65rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-dim);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+            margin-top: auto;
+            align-self: flex-start;
+            font-family: inherit;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        .project-link:hover {
+            border-bottom-color: var(--accent);
+        }
+        .project-link .fa-arrow-right {
+            transition: transform 0.25s;
+        }
+        .project-link:hover .fa-arrow-right {
+            transform: translateX(4px);
+        }
+
+        /* ============================
+           MODAL / WIKI DEL PROYECTO
+           ============================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 38px 34px 34px;
+            position: relative;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+            box-shadow: var(--card-shadow);
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            z-index: 2;
+        }
+        .modal-close:hover {
+            border-color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 22px;
+            padding-right: 40px;
+        }
+        .modal-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .modal-logo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+        .modal-logo .logo-fallback {
+            font-size: 1.8rem;
+            color: var(--accent);
+            opacity: 0.55;
+        }
+        .modal-title-block { min-width: 0; }
+        .modal-title-block h3 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--accent);
+            margin-bottom: 6px;
+            word-break: break-word;
+        }
+
+        .modal-desc {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-dim);
+            margin-bottom: 26px;
+        }
+
+        .modal-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            opacity: 0.75;
+            margin-bottom: 14px;
+        }
+
+        .modal-features {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+        .modal-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.87rem;
+            line-height: 1.55;
+            color: var(--text);
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-features li:last-child { border-bottom: none; }
+        .modal-features li i {
+            color: var(--accent);
+            font-size: 0.75rem;
+            margin-top: 5px;
+            width: 16px;
+            flex-shrink: 0;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+
+        .modal-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: inherit;
+        }
+        .modal-download:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        .modal-download.disabled {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px dashed var(--border);
+            cursor: not-allowed;
+        }
+        .modal-download.disabled:hover {
+            transform: none;
+            opacity: 1;
+        }
+
         /* Sobre nosotros */
         .about-highlight {
             max-width: 800px;
@@ -437,9 +791,7 @@
             height: 100%;
             align-items: flex-start;
         }
-        .back-col {
-            flex: 1;
-        }
+        .back-col { flex: 1; }
         .back-title {
             font-weight: 700;
             font-size: 0.6rem;
@@ -500,9 +852,7 @@
             margin-bottom: 28px;
             color: var(--text-dim);
         }
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .form-group { margin-bottom: 18px; }
         .contact-form-right input,
         .contact-form-right textarea,
         .contact-form-right select {
@@ -654,6 +1004,10 @@
             .eco-brand { font-size: 0.9rem; }
             .content-section { padding: 50px 5%; }
             h2 { font-size: 1.5rem; }
+            .modal-content { padding: 32px 22px 24px; border-radius: 24px; }
+            .modal-header { gap: 14px; }
+            .modal-logo { width: 60px; height: 60px; }
+            .modal-title-block h3 { font-size: 1.3rem; }
         }
         @media (max-width: 680px) {
             .flip-card { max-width: 100%; aspect-ratio: 400 / 260; }
@@ -674,6 +1028,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#ecosistema">Ecosistema</a>
         <a href="#sobre">Sobre MERTEK</a>
+        <a href="#creaciones">Creaciones</a>
         <a href="#presentacion">Contacto</a>
         <a href="#fundadores">Fundadores</a>
         <a href="#unete">Únete</a>
@@ -689,7 +1044,7 @@
         </div>
     </nav>
 
-    <!-- Hero: visible desde el inicio -->
+    <!-- Hero -->
     <section id="inicio" class="hero">
         <div class="hero-centered">
             <div class="hero-title">
@@ -705,7 +1060,6 @@
         </div>
     </section>
 
-    <!-- Secciones de contenido: todas ocultas inicialmente, aparecen al hacer scroll -->
     <section id="ecosistema" class="content-section">
         <div class="section-container">
             <div class="section-header">
@@ -742,6 +1096,62 @@
                     <span class="reclutamiento-item"><i class="fas fa-brain"></i> Innovación tecnológica</span>
                 </div>
                 <p style="text-align: center; margin-top: 16px; font-size: 0.8rem; color: var(--text-dim);">Si participaste en concursos, tienes un proyecto propio o te apasiona crear, este es tu lugar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CREACIONES -->
+    <section id="creaciones" class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="badge">// creaciones</span>
+                <h2>Creado por el equipo MERTEK</h2>
+                <p style="color: var(--text-dim); margin-top: 8px; font-size: 0.9rem;">Proyectos desarrollados por personas dentro de MERTEK. Talento interno convertido en tecnología real.</p>
+            </div>
+            <div class="projects-grid">
+
+                <!-- Tarjeta YourIA -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="logo.png" alt="Logo YourIA" onerror="this.style.display='none'">
+                        <i class="fas fa-robot logo-fallback"></i>
+                    </div>
+                    <div class="project-status dev">
+                        <span class="dot"></span> En desarrollo
+                    </div>
+                    <h3 class="project-name">YourIA</h3>
+                    <p class="project-desc">
+                        Inteligencia artificial especializada en <strong>tareas y código</strong>. Diseñada para asistir en programación, automatización y resolución de problemas técnicos.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">IA</span>
+                        <span class="project-tag">Código</span>
+                        <span class="project-tag">Automatización</span>
+                    </div>
+                    <button class="project-link" onclick="openProject('youria')">Ver más <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Tarjeta Bubble Chat -->
+                <div class="project-card">
+                    <div class="project-logo">
+                        <img src="icon.png" alt="Logo Bubble Chat" onerror="this.style.display='none'">
+                        <i class="fas fa-comments logo-fallback"></i>
+                    </div>
+                    <div class="project-status beta">
+                        <span class="dot"></span> Beta
+                    </div>
+                    <h3 class="project-name">Bubble Chat</h3>
+                    <p class="project-desc">
+                        Mod de Minecraft creado dentro de MERTEK que traduce las <strong>burbujas de chat en tiempo real</strong>. Comunicación instantánea entre jugadores sin barreras de idioma.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">Minecraft</span>
+                        <span class="project-tag">Traducción</span>
+                        <span class="project-tag">Tiempo real</span>
+                    </div>
+                    <button class="project-link" onclick="openProject('bubblechat')">Ver más <i class="fas fa-arrow-right"></i></button>
+                </div>
+
             </div>
         </div>
     </section>
@@ -871,6 +1281,16 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- MODAL / WIKI DEL PROYECTO -->
+    <div class="modal-overlay" id="projectModal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
     <script>
         window.addEventListener('load', () => {
             setTimeout(() => document.getElementById('loader')?.classList.add('hidden'), 500);
@@ -903,7 +1323,6 @@
             });
         }
 
-        // SOLO las secciones con clase "content-section" se animan al hacer scroll
         const contentSections = document.querySelectorAll('.content-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -927,6 +1346,103 @@
                 if (ecosistema) ecosistema.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         }
+
+        /* ==================================================
+           DATOS DE LOS PROYECTOS (WIKI)
+           Edita libremente: descripción, características,
+           URL de descarga, etc.
+           ================================================== */
+        const projectData = {
+            youria: {
+                name: 'YourIA',
+                status: 'En desarrollo',
+                statusClass: 'dev',
+                logo: 'logo-youria.png',
+                fallbackIcon: 'fa-robot',
+                description: 'YourIA es una inteligencia artificial desarrollada dentro de MERTEK, especializada en asistir en tareas técnicas y programación. Está pensada para ayudar a resolver problemas de código, automatizar procesos y servir de copiloto en el desarrollo de software.',
+                features: [
+                    'Asistencia especializada en tareas y código.',
+                    'Generación, revisión y depuración de código en múltiples lenguajes.',
+                    'Automatización de tareas repetitivas de desarrollo.',
+                    'Base entrenada para resolver problemas técnicos complejos.',
+                    'Integración futura con el ecosistema MERTEK.'
+                ],
+                tags: ['IA', 'Código', 'Automatización'],
+                downloadUrl: null, // ← cuando esté lista la descarga, pon aquí la URL
+                downloadLabel: 'Descarga no disponible aún'
+            },
+            bubblechat: {
+                name: 'Bubble Chat',
+                status: 'Beta',
+                statusClass: 'beta',
+                logo: 'logo-bubblechat.png',
+                fallbackIcon: 'fa-comments',
+                description: 'Bubble Chat es un mod de Minecraft creado por el equipo de MERTEK. Traduce las burbujas de chat entre jugadores en tiempo real, eliminando las barreras de idioma y permitiendo una comunicación fluida dentro del juego.',
+                features: [
+                    'Traducción en tiempo real de las burbujas de chat.',
+                    'Compatible con servidores multijugador.',
+                    'Detección automática del idioma de origen.',
+                    'Ligero y optimizado para no afectar el rendimiento.',
+                    'Desarrollado internamente por MERTEK.'
+                ],
+                tags: ['Minecraft', 'Traducción', 'Tiempo real'],
+                downloadUrl: '#', // ← reemplaza "#" por el enlace real de descarga del mod
+                downloadLabel: 'Descargar mod'
+            }
+        };
+
+        function openProject(key) {
+            const data = projectData[key];
+            if (!data) return;
+
+            const tagsHtml = data.tags.map(t => `<span class="project-tag">${t}</span>`).join('');
+            const featuresHtml = data.features.map(f =>
+                `<li><i class="fas fa-check"></i><span>${f}</span></li>`
+            ).join('');
+
+            const downloadHtml = data.downloadUrl
+                ? `<a class="modal-download" href="${data.downloadUrl}" target="_blank" rel="noopener">
+                       <i class="fas fa-download"></i> ${data.downloadLabel}
+                   </a>`
+                : `<button class="modal-download disabled" disabled>
+                       <i class="fas fa-hourglass-half"></i> ${data.downloadLabel}
+                   </button>`;
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-logo">
+                        <img src="${data.logo}" alt="Logo ${data.name}" onerror="this.style.display='none'">
+                        <i class="fas ${data.fallbackIcon} logo-fallback"></i>
+                    </div>
+                    <div class="modal-title-block">
+                        <h3>${data.name}</h3>
+                        <div class="project-status ${data.statusClass}">
+                            <span class="dot"></span> ${data.status}
+                        </div>
+                    </div>
+                </div>
+                <p class="modal-desc">${data.description}</p>
+                <div class="modal-section-label">// características</div>
+                <ul class="modal-features">${featuresHtml}</ul>
+                <div class="modal-section-label">// etiquetas</div>
+                <div class="modal-tags">${tagsHtml}</div>
+                ${downloadHtml}
+            `;
+
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
 
         const mainForm = document.getElementById('contactFormMain');
         if (mainForm) {
