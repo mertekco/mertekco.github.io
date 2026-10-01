@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>YourIA · Wiki</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :root {
+    --bg: #ffffff;
+    --bg-rgb: 255, 255, 255;
+    --surface: #f8fafc;
+    --text: #0a0a0a;
+    --text-dim: #3a3a3a;
+    --accent: #000000;
+    --border: #e2e2e2;
+    --card-shadow: 0 20px 35px -12px rgba(0,0,0,0.12);
+    --code-bg: #f1f5f9;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --bg-rgb: 10, 10, 10;
+    --surface: #141414;
+    --text: #f0f0f0;
+    --text-dim: #a0a0a0;
+    --accent: #ffffff;
+    --border: #2a2a2a;
+    --card-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    --code-bg: #1a1a1a;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 14px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 200;
+    background: rgba(var(--bg-rgb), 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--accent);
+  }
+  .nav-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--accent);
+    overflow: hidden;
+    position: relative;
+  }
+  .nav-logo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .nav-brand-text strong {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: -0.2px;
+  }
+  .nav-brand-text span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .nav-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .back-link {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-link:hover {
+    border-bottom-color: var(--accent);
+  }
+  .theme-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .theme-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 130px 5% 60px;
+    text-align: center;
+    position: relative;
+  }
+  .hero-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    color: var(--accent);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+  }
+  .hero-logo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    opacity: 0.7;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 8vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+  .hero p {
+    max-width: 620px;
+    margin: 0 auto 30px;
+    font-size: 1rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .hero-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .hero-meta .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+  }
+
+  /* ============ LAYOUT ============ */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 5%;
+  }
+  .wiki-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding: 20px 5% 80px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  @media (max-width: 860px) {
+    .wiki-layout { grid-template-columns: 1fr; gap: 30px; }
+    .wiki-sidebar { position: static !important; }
+  }
+
+  /* ============ SIDEBAR ============ */
+  .wiki-sidebar {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    border-left: 2px solid var(--border);
+    padding-left: 20px;
+  }
+  .wiki-sidebar h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+  .wiki-sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .wiki-sidebar li a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .wiki-sidebar li a:hover {
+    background: var(--surface);
+    color: var(--accent);
+  }
+  .wiki-sidebar li a.active {
+    background: var(--surface);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ============ CONTENT ============ */
+  .wiki-content { min-width: 0; }
+
+  .wiki-section {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 90px;
+  }
+  .wiki-section:last-child { border-bottom: none; }
+
+  .wiki-section .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    opacity: 0.65;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .wiki-section h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 18px;
+    color: var(--accent);
+  }
+  .wiki-section h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    color: var(--accent);
+  }
+  .wiki-section p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .wiki-section p strong { color: var(--accent); }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    transition: all 0.25s ease;
+  }
+  .mini-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .mini-card .icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .mini-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--accent);
+  }
+  .mini-card p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* Lista de características */
+  .feature-list {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li i {
+    color: var(--accent);
+    font-size: 0.7rem;
+    margin-top: 6px;
+    width: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Bloque de código */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+    margin: 12px 0;
+    white-space: pre;
+  }
+  .code-block .c { color: var(--text-dim); }
+
+  /* Tabla */
+  .wiki-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .wiki-table th, .wiki-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .wiki-table th {
+    background: var(--surface);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+  }
+  .wiki-table tr:last-child td { border-bottom: none; }
+  .wiki-table td { color: var(--text-dim); }
+  .wiki-table td strong { color: var(--accent); }
+
+  /* Nota / aviso */
+  .note {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 18px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin: 16px 0;
+  }
+  .note strong { color: var(--accent); }
+
+  /* Roadmap */
+  .roadmap {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .roadmap-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: border-color 0.2s;
+  }
+  .roadmap-item:hover { border-color: var(--accent); }
+  .roadmap-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .roadmap-item.done .roadmap-dot {
+    background: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34,197,94,0.15);
+  }
+  .roadmap-item.active .roadmap-dot {
+    background: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(245,158,11,0.15);
+  }
+  .roadmap-text h4 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .roadmap-text p {
+    font-size: 0.82rem;
+    margin-bottom: 0;
+    line-height: 1.55;
+  }
+
+  /* FAQ */
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 4px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+  .faq-item p {
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    padding-bottom: 16px;
+    margin-bottom: 0;
+    line-height: 1.7;
+  }
+
+  /* CTA */
+  .cta-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 32px 26px;
+    text-align: center;
+    margin-top: 22px;
+  }
+  .cta-box h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .cta-box p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 26px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 60px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+  .cta-btn.disabled {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px dashed var(--border);
+    cursor: not-allowed;
+  }
+  .cta-btn.disabled:hover { transform: none; opacity: 1; }
+
+  /* Footer */
+  footer {
+    padding: 40px 5%;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .footer-brand {
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    font-weight: 600;
+  }
+  footer a:hover { border-bottom-color: var(--accent); }
+
+  /* Float top */
+  .float-top {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none;
+  }
+  .float-top.visible { opacity: 1; }
+  .float-top:hover { transform: translateY(-3px) scale(1.05); }
+</style>
+</head>
+
+<body data-theme="light">
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a class="nav-brand" href="https://mertekco.github.io">
+    <div class="nav-logo">
+      <img src="logo.png" alt="YourIA" onerror="this.style.display='none'">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="nav-brand-text">
+      <strong>YourIA</strong>
+      <span>Wiki oficial</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <a class="back-link" href="https://mertekco.github.io">
+      <i class="fas fa-arrow-left"></i> MERTEK
+    </a>
+    <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i> TEMA</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-logo">
+    <img src="logo.png" alt="YourIA" onerror="this.style.display='none'">
+    <i class="fas fa-robot"></i>
+  </div>
+  <span class="hero-badge">// wiki</span>
+  <h1>YourIA</h1>
+  <p>
+    Inteligencia artificial especializada en <strong>tareas técnicas y código</strong>.
+    Un copiloto pensado para programar, automatizar y resolver problemas dentro del ecosistema MERTEK.
+  </p>
+  <div class="hero-meta">
+    <span class="dot"></span> Estado: en desarrollo · v0.1
+  </div>
+</header>
+
+<!-- ============ WIKI ============ -->
+<div class="wiki-layout">
+
+  <!-- Sidebar -->
+  <aside class="wiki-sidebar">
+    <h4>Contenido</h4>
+    <ul>
+      <li><a href="#que-es" class="active">¿Qué es YourIA?</a></li>
+      <li><a href="#capacidades">Capacidades</a></li>
+      <li><a href="#uso">Cómo se usa</a></li>
+      <li><a href="#arquitectura">Arquitectura</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#faq">Preguntas frecuentes</a></li>
+      <li><a href="#acceso">Acceso</a></li>
+    </ul>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="wiki-content">
+
+    <!-- 1. Qué es -->
+    <section class="wiki-section" id="que-es">
+      <span class="section-num">// 01 · introducción</span>
+      <h2>¿Qué es YourIA?</h2>
+      <p>
+        <strong>YourIA</strong> es una inteligencia artificial desarrollada dentro de <strong>MERTEK</strong>,
+        enfocada en asistir en tareas técnicas y de programación. Su propósito es funcionar como un
+        <strong>copiloto de desarrollo</strong>: ayudar a escribir código, entender fragmentos existentes,
+        depurar errores y automatizar flujos repetitivos.
+      </p>
+      <p>
+        No es un chatbot genérico. Está entrenada y orientada a <strong>resolver problemas concretos</strong>
+        del día a día técnico: sintaxis, refactorización, documentación, generación de scripts y
+        explicación de lógica.
+      </p>
+      <div class="note">
+        <strong>Estado actual:</strong> versión en desarrollo (v0.1). Algunas capacidades listadas ya funcionan,
+        otras están en camino. Consulta el <a href="#roadmap" style="color: var(--accent); font-weight: 700;">roadmap</a>.
+      </div>
+    </section>
+
+    <!-- 2. Capacidades -->
+    <section class="wiki-section" id="capacidades">
+      <span class="section-num">// 02 · capacidades</span>
+      <h2>¿Qué puede hacer?</h2>
+      <p>Estas son las áreas donde YourIA está pensada para aportar valor real:</p>
+
+      <ul class="feature-list">
+        <li><i class="fas fa-check"></i><span><strong>Generación de código</strong> en múltiples lenguajes a partir de una descripción en lenguaje natural.</span></li>
+        <li><i class="fas fa-check"></i><span><strong>Explicación de código</strong> existente, línea por línea o a nivel de bloque.</span></li>
+        <li><i class="fas fa-check"></i><span><strong>Depuración asistida</strong>: detección de errores comunes y sugerencias de corrección.</span></li>
+        <li><i class="fas fa-check"></i><span><strong>Refactorización</strong> para mejorar legibilidad, eficiencia o estructura.</span></li>
+        <li><i class="fas fa-check"></i><span><strong>Automatización de tareas</strong> repetitivas de desarrollo (scripts, tests, formateo).</span></li>
+        <li><i class="fas fa-check"></i><span><strong>Generación de documentación</strong> técnica a partir de código fuente.</span></li>
+      </ul>
+
+      <h3>Áreas de especialización</h3>
+      <div class="card-grid">
+        <div class="mini-card">
+          <div class="icon"><i class="fas fa-code"></i></div>
+          <h4>Código</h4>
+          <p>Python, JavaScript, HTML/CSS, C++ y otros lenguajes comunes.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon"><i class="fas fa-bug"></i></div>
+          <h4>Debug</h4>
+          <p>Análisis de errores, stack traces y sugerencias de fix.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon"><i class="fas fa-gears"></i></div>
+          <h4>Automatización</h4>
+          <p>Scripts, tareas repetitivas y flujos de trabajo.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon"><i class="fas fa-book"></i></div>
+          <h4>Documentación</h4>
+          <p>Docs técnicas, comentarios y explicaciones claras.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Uso -->
+    <section class="wiki-section" id="uso">
+      <span class="section-num">// 03 · uso</span>
+      <h2>Cómo se usa</h2>
+      <p>
+        YourIA se invoca mediante <strong>prompts en lenguaje natural</strong>. No necesitas aprender
+        una sintaxis especial: describe lo que quieres y la IA interpreta la tarea.
+      </p>
+
+      <h3>Ejemplo 1 · Generar una función</h3>
+      <div class="code-block"><span class="c">// Prompt:</span>
+Genera una función en Python que reciba una lista
+de números y devuelva la mediana sin usar numpy.</div>
+
+      <h3>Ejemplo 2 · Explicar código</h3>
+      <div class="code-block"><span class="c">// Prompt:</span>
+Explícame qué hace este fragmento paso a paso:
+
+def f(x):
+    return x if x < 2 else f(x-1) + f(x-2)</div>
+
+      <h3>Ejemplo 3 · Depurar error</h3>
+      <div class="code-block"><span class="c">// Prompt:</span>
+Este código lanza "TypeError: unsupported operand type(s)".
+¿Por qué y cómo lo arreglo?
+
+total = "10" + 5</div>
+
+      <div class="note">
+        <strong>Consejo:</strong> cuanto más contexto das (lenguaje, versión, restricciones),
+        más precisa es la respuesta. Evita prompts ambiguos.
+      </div>
+    </section>
+
+    <!-- 4. Arquitectura -->
+    <section class="wiki-section" id="arquitectura">
+      <span class="section-num">// 04 · arquitectura</span>
+      <h2>Arquitectura general</h2>
+      <p>
+        YourIA está construida por capas, con el objetivo de poder integrarse en el ecosistema
+        MERTEK sin depender de un único proveedor.
+      </p>
+
+      <table class="wiki-table">
+        <thead>
+          <tr>
+            <th>Capa</th>
+            <th>Función</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Interfaz</strong></td>
+            <td>Entrada de prompts y salida de resultados.</td>
+            <td>Activa</td>
+          </tr>
+          <tr>
+            <td><strong>Motor</strong></td>
+            <td>Modelo de lenguaje ajustado para tareas técnicas.</td>
+            <td>En desarrollo</td>
+          </tr>
+          <tr>
+            <td><strong>Contexto</strong></td>
+            <td>Memoria temporal del proyecto o sesión activa.</td>
+            <td>En desarrollo</td>
+          </tr>
+          <tr>
+            <td><strong>Integración</strong></td>
+            <td>Conexión con herramientas externas y ecosistema MERTEK.</td>
+            <td>Planificada</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 5. Roadmap -->
+    <section class="wiki-section" id="roadmap">
+      <span class="section-num">// 05 · roadmap</span>
+      <h2>Hoja de ruta</h2>
+      <p>Estas son las etapas planificadas para YourIA dentro del ecosistema MERTEK.</p>
+
+      <div class="roadmap">
+        <div class="roadmap-item done">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-text">
+            <h4>Fase 1 · Concepto y prototipo</h4>
+            <p>Definición del propósito, primeras pruebas de generación de código y validación interna.</p>
+          </div>
+        </div>
+        <div class="roadmap-item active">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-text">
+            <h4>Fase 2 · Motor técnico</h4>
+            <p>Ajuste del modelo para tareas de programación, depuración y documentación.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-text">
+            <h4>Fase 3 · Interfaz pública</h4>
+            <p>Acceso web y modo conversacional estable para usuarios externos.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-text">
+            <h4>Fase 4 · Integración MERTEK</h4>
+            <p>Conexión con proyectos internos, herramientas de desarrollo y flujos del ecosistema.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FAQ -->
+    <section class="wiki-section" id="faq">
+      <span class="section-num">// 06 · faq</span>
+      <h2>Preguntas frecuentes</h2>
+
+      <details class="faq-item">
+        <summary>¿YourIA es gratis?</summary>
+        <p>Aún no hay un modelo de acceso definido. La prioridad actual es completar el motor técnico antes de abrir un plan público.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿En qué se diferencia de otros asistentes de código?</summary>
+        <p>YourIA nace dentro del ecosistema MERTEK y está pensada para integrarse con sus proyectos internos. El enfoque es técnico y directo: resolver, no conversar.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Qué lenguajes soporta?</summary>
+        <p>Actualmente se está trabajando con lenguajes comunes (Python, JavaScript, HTML/CSS, C++). La lista puede ampliarse según las necesidades del ecosistema.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Puedo colaborar en el desarrollo?</summary>
+        <p>Sí. MERTEK recluta talento con experiencia en programación, robótica o tecnología. Puedes contactar a través del sitio principal.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Está disponible la descarga?</summary>
+        <p>Todavía no. La Fase 2 (motor técnico) debe completarse antes de publicar una versión usable.</p>
+      </details>
+    </section>
+
+    <!-- 7. Acceso -->
+    <section class="wiki-section" id="acceso">
+      <span class="section-num">// 07 · acceso</span>
+      <h2>Acceso</h2>
+      <p>
+        YourIA está en desarrollo activo. Cuando la versión estable esté lista, se publicará
+        en esta misma página junto con la documentación de uso.
+      </p>
+
+      <div class="cta-box">
+        <h3>Disponible próximamente</h3>
+        <p>Estamos afinando el motor técnico. Vuelve pronto o contacta a MERTEK si quieres participar.</p>
+        <button class="cta-btn disabled" disabled>
+          <i class="fas fa-hourglass-half"></i> Descarga no disponible aún
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-brand">YourIA · Wiki oficial</div>
+  <div>Un proyecto del ecosistema MERTEK · <a href="https://mertekco.github.io">mertekco.github.io</a></div>
+  <div style="margin-top: 6px; opacity: 0.7;">© 2026 MERTEK Corporation</div>
+</footer>
+
+<button class="float-top" id="floatBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+  /* ============ Tema claro/oscuro ============ */
+  function toggleTheme() {
+    const body = document.body;
+    const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  document.body.setAttribute('data-theme', saved || 'light');
+
+  /* ============ Botón flotante ============ */
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('floatBtn');
+    if (window.scrollY > 400) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+
+  /* ============ Sidebar activo (scroll spy) ============ */
+  const sections = document.querySelectorAll('.wiki-section');
+  const links = document.querySelectorAll('.wiki-sidebar a');
+
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.wiki-sidebar a[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => spy.observe(s));
+
+  /* ============ Smooth scroll ============ */
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
