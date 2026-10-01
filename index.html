@@ -642,6 +642,18 @@
             transform: none;
             opacity: 1;
         }
+        /* Botón "Ver wiki" con estilo secundario */
+        .modal-download.wiki {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        .modal-download.wiki:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: translateY(-2px);
+            opacity: 1;
+        }
 
         /* Sobre nosotros */
         .about-highlight {
@@ -1349,8 +1361,6 @@
 
         /* ==================================================
            DATOS DE LOS PROYECTOS (WIKI)
-           Edita libremente: descripción, características,
-           URL de descarga, etc.
            ================================================== */
         const projectData = {
             youria: {
@@ -1368,8 +1378,17 @@
                     'Integración futura con el ecosistema MERTEK.'
                 ],
                 tags: ['IA', 'Código', 'Automatización'],
-                downloadUrl: null, // ← cuando esté lista la descarga, pon aquí la URL
-                downloadLabel: 'Descarga no disponible aún'
+
+                /* ============================================
+                   BOTÓN DE ACCIÓN
+                   Aquí va el enlace a la wiki oficial de YourIA.
+                   Cambia 'youria.html' por la ruta real si la
+                   pones en otra carpeta (ej: 'wiki/youria.html').
+                   ============================================ */
+                actionUrl: 'youria.html',
+                actionLabel: 'Ver wiki oficial',
+                actionIcon: 'fa-book-open',
+                actionClass: 'wiki' // estilo secundario (borde + acento)
             },
             bubblechat: {
                 name: 'Bubble Chat',
@@ -1386,8 +1405,12 @@
                     'Desarrollado internamente por MERTEK.'
                 ],
                 tags: ['Minecraft', 'Traducción', 'Tiempo real'],
-                downloadUrl: 'https://www.curseforge.com/minecraft/mc-mods/bsmp-translator-bubbles-chat',
-                downloadLabel: 'Descargar mod'
+
+                /* Botón de descarga normal (abre en nueva pestaña) */
+                actionUrl: 'https://www.curseforge.com/minecraft/mc-mods/bsmp-translator-bubbles-chat',
+                actionLabel: 'Descargar mod',
+                actionIcon: 'fa-download',
+                actionClass: '' // estilo principal (relleno)
             }
         };
 
@@ -1400,13 +1423,16 @@
                 `<li><i class="fas fa-check"></i><span>${f}</span></li>`
             ).join('');
 
-            const downloadHtml = data.downloadUrl
-                ? `<a class="modal-download" href="${data.downloadUrl}" target="_blank" rel="noopener">
-                       <i class="fas fa-download"></i> ${data.downloadLabel}
-                   </a>`
-                : `<button class="modal-download disabled" disabled>
-                       <i class="fas fa-hourglass-half"></i> ${data.downloadLabel}
-                   </button>`;
+            /* Botón de acción: enlace externo o interno */
+            const isExternal = /^https?:\/\//i.test(data.actionUrl);
+            const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
+
+            const actionHtml = `
+                <a class="modal-download ${data.actionClass || ''}"
+                   href="${data.actionUrl}" ${targetAttr}>
+                    <i class="fas ${data.actionIcon}"></i> ${data.actionLabel}
+                </a>
+            `;
 
             document.getElementById('modalBody').innerHTML = `
                 <div class="modal-header">
@@ -1426,7 +1452,7 @@
                 <ul class="modal-features">${featuresHtml}</ul>
                 <div class="modal-section-label">// etiquetas</div>
                 <div class="modal-tags">${tagsHtml}</div>
-                ${downloadHtml}
+                ${actionHtml}
             `;
 
             const modal = document.getElementById('projectModal');
