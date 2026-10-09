@@ -152,7 +152,6 @@
         }
         .mobile-menu a:hover { color: var(--accent); }
 
-        /* Hero - visible desde el inicio */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -222,7 +221,6 @@
             50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
         }
 
-        /* Secciones de contenido: ocultas inicialmente, aparecen al hacer scroll */
         .content-section {
             padding: 70px 5%;
             opacity: 0;
@@ -258,7 +256,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* Ecosistema Grid */
         .ecosystem-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -293,9 +290,6 @@
             text-transform: uppercase;
         }
 
-        /* ============================
-           CREACIONES / PROYECTOS
-           ============================ */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -333,7 +327,6 @@
         }
         .project-card:hover::before { transform: scaleX(1); }
 
-        /* Logo configurable */
         .project-logo {
             width: 74px;
             height: 74px;
@@ -453,9 +446,6 @@
             transform: translateX(4px);
         }
 
-        /* ============================
-           MODAL / WIKI DEL PROYECTO
-           ============================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -642,7 +632,6 @@
             transform: none;
             opacity: 1;
         }
-        /* Botón "Ver wiki" con estilo secundario */
         .modal-download.wiki {
             background: transparent;
             color: var(--accent);
@@ -655,7 +644,6 @@
             opacity: 1;
         }
 
-        /* Sobre nosotros */
         .about-highlight {
             max-width: 800px;
             margin: 0 auto 40px;
@@ -707,7 +695,6 @@
             transform: translateY(-2px);
         }
 
-        /* Tarjeta 3D */
         .presentation-wrapper {
             display: flex;
             flex-wrap: wrap;
@@ -973,6 +960,83 @@
             transform: translateY(-2px);
         }
 
+        /* ============================
+           CONSENTIMIENTO / CHECKBOX LEGAL
+           ============================ */
+        .consent-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        .consent-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            margin-top: 2px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .consent-group label {
+            font-size: 0.72rem;
+            line-height: 1.5;
+            color: var(--text-dim);
+            cursor: pointer;
+        }
+        .consent-group label a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* ============================
+           MODAL AVISO DE PRIVACIDAD
+           ============================ */
+        .privacy-content {
+            font-size: 0.85rem;
+            line-height: 1.75;
+            color: var(--text-dim);
+        }
+        .privacy-content h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 22px 0 10px;
+            letter-spacing: -0.2px;
+        }
+        .privacy-content h4:first-of-type {
+            margin-top: 0;
+        }
+        .privacy-content p {
+            margin-bottom: 12px;
+        }
+        .privacy-content ul {
+            margin: 8px 0 14px 20px;
+        }
+        .privacy-content ul li {
+            margin-bottom: 6px;
+        }
+        .privacy-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .privacy-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--accent);
+            opacity: 0.6;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
         footer {
             padding: 40px 5%;
             text-align: center;
@@ -983,6 +1047,25 @@
             font-weight: 700;
             font-size: 0.8rem;
             margin-bottom: 8px;
+        }
+        .footer-legal {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+        }
+        .footer-legal a {
+            color: var(--text-dim);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s, color 0.2s;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .footer-legal a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
         }
         .float-top {
             position: fixed;
@@ -1226,6 +1309,15 @@
                             </select>
                         </div>
                         <div class="form-group"><textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre ti, tu experiencia o idea..." required></textarea></div>
+
+                        <!-- CHECKBOX DE CONSENTIMIENTO - FORMULARIO PRINCIPAL -->
+                        <div class="consent-group">
+                            <input type="checkbox" name="acepto_privacidad" id="aceptoMain" required>
+                            <label for="aceptoMain">
+                                He leído y acepto el <a onclick="openPrivacy()">Aviso de Privacidad</a> y el tratamiento de mis datos personales para los fines descritos.
+                            </label>
+                        </div>
+
                         <button type="submit"><i class="fas fa-paper-plane"></i> Enviar mensaje</button>
                     </form>
                 </div>
@@ -1278,6 +1370,15 @@
                         <option value="otro">Otro / Curiosidad</option>
                     </select>
                     <textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre tu experiencia en concursos, proyectos o lo que te apasiona..."></textarea>
+
+                    <!-- CHECKBOX DE CONSENTIMIENTO - FORMULARIO ÚNETE -->
+                    <div class="consent-group">
+                        <input type="checkbox" name="acepto_privacidad" id="aceptoUnete" required>
+                        <label for="aceptoUnete">
+                            He leído y acepto el <a onclick="openPrivacy()">Aviso de Privacidad</a> y el tratamiento de mis datos personales para los fines descritos.
+                        </label>
+                    </div>
+
                     <button type="submit"><i class="fas fa-hand-sparkles"></i> Quiero participar</button>
                 </form>
             </div>
@@ -1287,6 +1388,12 @@
     <footer>
         <div class="footer-brand">MERTEK ROBOTICS</div>
         <div>Desarrollo, innovación y hardware | 2026</div>
+        <div class="footer-legal">
+            <a onclick="openPrivacy()">Aviso de Privacidad</a>
+            <a onclick="openPrivacy('cookies')">Aviso de Cookies</a>
+            <a onclick="openPrivacy('terminos')">Términos de Uso</a>
+            <a onclick="openPrivacy('arco')">Derechos ARCO</a>
+        </div>
     </footer>
 
     <div class="float-top" id="floatBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -1300,6 +1407,16 @@
                 <i class="fas fa-times"></i>
             </button>
             <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- MODAL / AVISO DE PRIVACIDAD -->
+    <div class="modal-overlay" id="privacyModal" onclick="if(event.target === this) closePrivacy()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePrivacy()" aria-label="Cerrar">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="privacyBody"></div>
         </div>
     </div>
 
@@ -1378,17 +1495,10 @@
                     'Integración futura con el ecosistema MERTEK.'
                 ],
                 tags: ['IA', 'Código', 'Automatización'],
-
-                /* ============================================
-                   BOTÓN DE ACCIÓN
-                   Aquí va el enlace a la wiki oficial de YourIA.
-                   Cambia 'youria.html' por la ruta real si la
-                   pones en otra carpeta (ej: 'wiki/youria.html').
-                   ============================================ */
                 actionUrl: 'youria.html',
                 actionLabel: 'Ver wiki oficial',
                 actionIcon: 'fa-book-open',
-                actionClass: 'wiki' // estilo secundario (borde + acento)
+                actionClass: 'wiki'
             },
             bubblechat: {
                 name: 'Bubble Chat',
@@ -1405,12 +1515,10 @@
                     'Desarrollado internamente por MERTEK.'
                 ],
                 tags: ['Minecraft', 'Traducción', 'Tiempo real'],
-
-                /* Botón de descarga normal (abre en nueva pestaña) */
                 actionUrl: 'https://www.curseforge.com/minecraft/mc-mods/bsmp-translator-bubbles-chat',
                 actionLabel: 'Descargar mod',
                 actionIcon: 'fa-download',
-                actionClass: '' // estilo principal (relleno)
+                actionClass: ''
             }
         };
 
@@ -1423,7 +1531,6 @@
                 `<li><i class="fas fa-check"></i><span>${f}</span></li>`
             ).join('');
 
-            /* Botón de acción: enlace externo o interno */
             const isExternal = /^https?:\/\//i.test(data.actionUrl);
             const targetAttr = isExternal ? 'target="_blank" rel="noopener"' : '';
 
@@ -1466,14 +1573,188 @@
             document.body.classList.remove('modal-open');
         }
 
+        /* ==================================================
+           AVISO DE PRIVACIDAD, COOKIES, TÉRMINOS Y ARCO
+           ================================================== */
+        const privacyData = {
+            privacidad: {
+                title: 'Aviso de Privacidad',
+                meta: 'Última actualización: 2026 | MERTEK CORPORATION',
+                body: `
+                    <div class="privacy-content">
+                        <h4>1. Identidad del Responsable</h4>
+                        <p><strong>MERTEK CORPORATION</strong> (en adelante "MERTEK"), con domicilio en México y sitio web <strong>mertekco.github.io</strong>, es responsable del tratamiento de los datos personales que nos proporcionas a través de este sitio.</p>
+                        <p>Correo de contacto para temas de privacidad: <strong>privacidad@mertekco.github.io</strong></p>
+
+                        <h4>2. Datos Personales Recopilados</h4>
+                        <p>A través de nuestros formularios de contacto y de reclutamiento, recopilamos los siguientes datos personales:</p>
+                        <ul>
+                            <li>Nombre completo</li>
+                            <li>Correo electrónico</li>
+                            <li>Motivo de contacto o área de interés</li>
+                            <li>Mensaje o información que decidas compartirnos</li>
+                        </ul>
+                        <p>No recopilamos datos personales sensibles (origen étnico, salud, creencias, etc.).</p>
+
+                        <h4>3. Finalidades del Tratamiento</h4>
+                        <p>Tus datos serán utilizados para las siguientes finalidades:</p>
+                        <ul>
+                            <li>Responder a tus consultas, comentarios o solicitudes de colaboración.</li>
+                            <li>Evaluar tu perfil para posibles oportunidades dentro de MERTEK.</li>
+                            <li>Contactarte en caso de que tu perfil coincida con nuestras búsquedas de talento.</li>
+                            <li>Enviarte información relacionada con MERTEK cuando lo solicites expresamente.</li>
+                        </ul>
+                        <p>No utilizaremos tus datos para finalidades distintas a las aquí descritas sin tu consentimiento previo.</p>
+
+                        <h4>4. Transferencia de Datos</h4>
+                        <p>Para el procesamiento de los formularios, utilizamos el servicio <strong>Formspree</strong>, cuyos servidores se encuentran fuera de México. Al enviar tu información, aceptas que tus datos sean transferidos y procesados por este proveedor, quien cuenta con medidas de seguridad propias.</p>
+                        <p>No transferimos tus datos a terceros con fines comerciales ni de publicidad.</p>
+
+                        <h4>5. Derechos ARCO</h4>
+                        <p>Tienes derecho a <strong>Acceder, Rectificar, Cancelar u Oponerte</strong> (derechos ARCO) al tratamiento de tus datos personales. Para ejercer cualquiera de estos derechos, envía un correo a <strong>privacidad@mertekco.github.io</strong> indicando:</p>
+                        <ul>
+                            <li>Tu nombre completo y correo de contacto.</li>
+                            <li>El derecho que deseas ejercer.</li>
+                            <li>La descripción clara de los datos sobre los que buscas ejercer el derecho.</li>
+                        </ul>
+                        <p>Responderemos a tu solicitud en un plazo máximo de <strong>20 días hábiles</strong>.</p>
+
+                        <h4>6. Uso de Cookies y Tecnologías Similares</h4>
+                        <p>Este sitio utiliza <strong>localStorage</strong> únicamente para recordar tu preferencia de tema (claro/oscuro). No utilizamos cookies de rastreo, publicidad ni análisis de terceros.</p>
+                        <p>Si en el futuro incorporamos herramientas como Google Analytics o píxeles de redes sociales, actualizaremos este aviso y solicitaremos tu consentimiento.</p>
+
+                        <h4>7. Medidas de Seguridad</h4>
+                        <p>Implementamos medidas técnicas y administrativas razonables para proteger tus datos personales contra acceso no autorizado, pérdida o alteración.</p>
+
+                        <h4>8. Cambios al Aviso de Privacidad</h4>
+                        <p>Nos reservamos el derecho de modificar este aviso. Cualquier cambio será publicado en esta misma sección con la fecha de actualización correspondiente.</p>
+
+                        <h4>9. Consentimiento</h4>
+                        <p>Al marcar la casilla de consentimiento en nuestros formularios, manifiestas tu aceptación libre, informada y previa al tratamiento de tus datos personales conforme a este aviso.</p>
+                    </div>
+                `
+            },
+            cookies: {
+                title: 'Aviso de Cookies',
+                meta: 'Última actualización: 2026 | MERTEK CORPORATION',
+                body: `
+                    <div class="privacy-content">
+                        <h4>¿Qué son las cookies?</h4>
+                        <p>Las cookies son pequeños archivos que se almacenan en tu dispositivo al visitar un sitio web. Sirven para recordar preferencias, analizar tráfico o personalizar contenido.</p>
+
+                        <h4>¿Qué usamos en MERTEK?</h4>
+                        <p>Actualmente este sitio <strong>no utiliza cookies de rastreo, publicidad ni análisis de terceros</strong>. Únicamente utilizamos <strong>localStorage</strong> para recordar tu preferencia de tema (claro/oscuro).</p>
+                        <p>El localStorage no es una cookie, pero es una tecnología similar que almacena información en tu navegador. No contiene datos personales y no se comparte con terceros.</p>
+
+                        <h4>¿Qué pasa si en el futuro usamos cookies?</h4>
+                        <p>Si llegamos a incorporar herramientas como Google Analytics, Meta Pixel u otras, implementaremos un banner de cookies que te permitirá aceptar o rechazar su uso antes de que se activen. También actualizaremos este aviso.</p>
+
+                        <h4>¿Cómo desactivar el localStorage?</h4>
+                        <p>Puedes borrar el localStorage desde la configuración de tu navegador. Si lo haces, el sitio volverá al tema claro por defecto.</p>
+                    </div>
+                `
+            },
+            terminos: {
+                title: 'Términos de Uso',
+                meta: 'Última actualización: 2026 | MERTEK CORPORATION',
+                body: `
+                    <div class="privacy-content">
+                        <h4>1. Aceptación</h4>
+                        <p>Al acceder y utilizar el sitio web de <strong>MERTEK CORPORATION</strong>, aceptas los presentes Términos de Uso. Si no estás de acuerdo, te pedimos no utilizar el sitio.</p>
+
+                        <h4>2. Uso del Sitio</h4>
+                        <p>Este sitio tiene fines informativos sobre MERTEK, sus proyectos y oportunidades de colaboración. No está permitido:</p>
+                        <ul>
+                            <li>Usar el sitio para actividades ilegales o no autorizadas.</li>
+                            <li>Intentar acceder a áreas restringidas o alterar el funcionamiento del sitio.</li>
+                            <li>Reproducir contenido sin autorización expresa de MERTEK.</li>
+                        </ul>
+
+                        <h4>3. Propiedad Intelectual</h4>
+                        <p>Todo el contenido de este sitio (textos, logotipos, diseños, código) es propiedad de MERTEK o se utiliza con autorización. No puede ser reproducido sin permiso.</p>
+
+                        <h4>4. Enlaces a Terceros</h4>
+                        <p>Este sitio puede contener enlaces a plataformas externas (CurseForge, Formspree, etc.). MERTEK no se hace responsable del contenido o las prácticas de privacidad de esos sitios.</p>
+
+                        <h4>5. Limitación de Responsabilidad</h4>
+                        <p>MERTEK no garantiza que el sitio esté libre de errores o interrupciones. No nos hacemos responsables de daños derivados del uso del sitio.</p>
+
+                        <h4>6. Modificaciones</h4>
+                        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán publicados en esta misma sección.</p>
+                    </div>
+                `
+            },
+            arco: {
+                title: 'Derechos ARCO',
+                meta: 'Última actualización: 2026 | MERTEK CORPORATION',
+                body: `
+                    <div class="privacy-content">
+                        <h4>¿Qué son los Derechos ARCO?</h4>
+                        <p>Los derechos ARCO son <strong>Acceso, Rectificación, Cancelación y Oposición</strong> al tratamiento de tus datos personales. Están reconocidos por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) en México.</p>
+
+                        <h4>¿Cómo ejercerlos?</h4>
+                        <p>Envía un correo a <strong>privacidad@mertekco.github.io</strong> con la siguiente información:</p>
+                        <ul>
+                            <li><strong>Nombre completo</strong> y correo de contacto.</li>
+                            <li><strong>Derecho que deseas ejercer</strong> (Acceso, Rectificación, Cancelación u Oposición).</li>
+                            <li><strong>Descripción clara</strong> de los datos sobre los que buscas ejercer el derecho.</li>
+                            <li>Cualquier documento que facilite la localización de tus datos.</li>
+                        </ul>
+
+                        <h4>Plazos de Respuesta</h4>
+                        <p>Responderemos a tu solicitud en un plazo máximo de <strong>20 días hábiles</strong> contados desde la recepción de tu correo. Si la solicitud es procedente, se hará efectiva dentro de los <strong>15 días hábiles</strong> siguientes a la respuesta.</p>
+
+                        <h4>¿Qué significa cada derecho?</h4>
+                        <ul>
+                            <li><strong>Acceso:</strong> Conocer qué datos tenemos sobre ti y cómo los usamos.</li>
+                            <li><strong>Rectificación:</strong> Corregir datos inexactos o incompletos.</li>
+                            <li><strong>Cancelación:</strong> Solicitar la eliminación de tus datos cuando ya no sean necesarios.</li>
+                            <li><strong>Oposición:</strong> Oponerte al uso de tus datos para fines específicos.</li>
+                        </ul>
+
+                        <h4>Autoridad</h4>
+                        <p>Si consideras que tu solicitud no fue atendida correctamente, puedes acudir al <strong>Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)</strong>.</p>
+                    </div>
+                `
+            }
+        };
+
+        function openPrivacy(section = 'privacidad') {
+            const data = privacyData[section] || privacyData.privacidad;
+            document.getElementById('privacyBody').innerHTML = `
+                <div class="modal-header" style="padding-right: 40px;">
+                    <div class="modal-title-block">
+                        <h3>${data.title}</h3>
+                        <div class="privacy-meta">${data.meta}</div>
+                    </div>
+                </div>
+                ${data.body}
+            `;
+            const modal = document.getElementById('privacyModal');
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closePrivacy() {
+            const modal = document.getElementById('privacyModal');
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeModal();
+                closePrivacy();
+            }
         });
 
+        /* ==================================================
+           FORMULARIOS
+           ================================================== */
         const mainForm = document.getElementById('contactFormMain');
         if (mainForm) {
             mainForm.addEventListener('submit', function(e) {
-                const btn = this.querySelector('button');
+                const btn = this.querySelector('button[type="submit"]');
                 const original = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 btn.disabled = true;
@@ -1487,7 +1768,7 @@
         const joinForm = document.getElementById('formUnete');
         if (joinForm) {
             joinForm.addEventListener('submit', function() {
-                const btn = this.querySelector('button');
+                const btn = this.querySelector('button[type="submit"]');
                 const original = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
                 btn.disabled = true;
