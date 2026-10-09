@@ -960,9 +960,6 @@
             transform: translateY(-2px);
         }
 
-        /* ============================
-           CONSENTIMIENTO / CHECKBOX LEGAL
-           ============================ */
         .consent-group {
             display: flex;
             align-items: flex-start;
@@ -995,9 +992,6 @@
             cursor: pointer;
         }
 
-        /* ============================
-           MODAL AVISO DE PRIVACIDAD
-           ============================ */
         .privacy-content {
             font-size: 0.85rem;
             line-height: 1.75;
@@ -1139,7 +1133,6 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <section id="inicio" class="hero">
         <div class="hero-centered">
             <div class="hero-title">
@@ -1195,7 +1188,6 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: CREACIONES -->
     <section id="creaciones" class="content-section">
         <div class="section-container">
             <div class="section-header">
@@ -1205,7 +1197,6 @@
             </div>
             <div class="projects-grid">
 
-                <!-- Tarjeta YourIA -->
                 <div class="project-card">
                     <div class="project-logo">
                         <img src="logo.png" alt="Logo YourIA" onerror="this.style.display='none'">
@@ -1226,7 +1217,6 @@
                     <button class="project-link" onclick="openProject('youria')">Ver más <i class="fas fa-arrow-right"></i></button>
                 </div>
 
-                <!-- Tarjeta Bubble Chat -->
                 <div class="project-card">
                     <div class="project-logo">
                         <img src="icon.png" alt="Logo Bubble Chat" onerror="this.style.display='none'">
@@ -1279,7 +1269,7 @@
                                     </div>
                                     <div class="back-col">
                                         <div class="back-title">CONTACT</div>
-                                        <div class="contact-row"><i class="fas fa-envelope"></i> Coming soon</div>
+                                        <div class="contact-row"><i class="fas fa-envelope"></i> [TU_CORREO_DE_CONTACTO]</div>
                                         <div class="contact-row"><i class="fas fa-globe"></i> mertekco.github.io</div>
                                         <div class="contact-row"><i class="fab fa-instagram"></i> @mertekco</div>
                                     </div>
@@ -1310,7 +1300,6 @@
                         </div>
                         <div class="form-group"><textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre ti, tu experiencia o idea..." required></textarea></div>
 
-                        <!-- CHECKBOX DE CONSENTIMIENTO - FORMULARIO PRINCIPAL -->
                         <div class="consent-group">
                             <input type="checkbox" name="acepto_privacidad" id="aceptoMain" required>
                             <label for="aceptoMain">
@@ -1371,7 +1360,6 @@
                     </select>
                     <textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre tu experiencia en concursos, proyectos o lo que te apasiona..."></textarea>
 
-                    <!-- CHECKBOX DE CONSENTIMIENTO - FORMULARIO ÚNETE -->
                     <div class="consent-group">
                         <input type="checkbox" name="acepto_privacidad" id="aceptoUnete" required>
                         <label for="aceptoUnete">
@@ -1400,7 +1388,6 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- MODAL / WIKI DEL PROYECTO -->
     <div class="modal-overlay" id="projectModal" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">
@@ -1410,7 +1397,6 @@
         </div>
     </div>
 
-    <!-- MODAL / AVISO DE PRIVACIDAD -->
     <div class="modal-overlay" id="privacyModal" onclick="if(event.target === this) closePrivacy()">
         <div class="modal-content">
             <button class="modal-close" onclick="closePrivacy()" aria-label="Cerrar">
@@ -1476,9 +1462,6 @@
             });
         }
 
-        /* ==================================================
-           DATOS DE LOS PROYECTOS (WIKI)
-           ================================================== */
         const projectData = {
             youria: {
                 name: 'YourIA',
@@ -1573,9 +1556,6 @@
             document.body.classList.remove('modal-open');
         }
 
-        /* ==================================================
-           AVISO DE PRIVACIDAD, COOKIES, TÉRMINOS Y ARCO
-           ================================================== */
         const privacyData = {
             privacidad: {
                 title: 'Aviso de Privacidad',
@@ -1584,7 +1564,7 @@
                     <div class="privacy-content">
                         <h4>1. Identidad del Responsable</h4>
                         <p><strong>MERTEK CORPORATION</strong> (en adelante "MERTEK"), con domicilio en México y sitio web <strong>mertekco.github.io</strong>, es responsable del tratamiento de los datos personales que nos proporcionas a través de este sitio.</p>
-                        <p>Correo de contacto para temas de privacidad: <strong>privacidad@mertekco.github.io</strong></p>
+                        <p>Correo de contacto para temas de privacidad: <strong>[TU_CORREO_DE_PRIVACIDAD]</strong></p>
 
                         <h4>2. Datos Personales Recopilados</h4>
                         <p>A través de nuestros formularios de contacto y de reclutamiento, recopilamos los siguientes datos personales:</p>
@@ -1611,7 +1591,7 @@
                         <p>No transferimos tus datos a terceros con fines comerciales ni de publicidad.</p>
 
                         <h4>5. Derechos ARCO</h4>
-                        <p>Tienes derecho a <strong>Acceder, Rectificar, Cancelar u Oponerte</strong> (derechos ARCO) al tratamiento de tus datos personales. Para ejercer cualquiera de estos derechos, envía un correo a <strong>privacidad@mertekco.github.io</strong> indicando:</p>
+                        <p>Tienes derecho a <strong>Acceder, Rectificar, Cancelar u Oponerte</strong> (derechos ARCO) al tratamiento de tus datos personales. Para ejercer cualquiera de estos derechos, envía un correo a <strong>[TU_CORREO_DE_PRIVACIDAD]</strong> indicando:</p>
                         <ul>
                             <li>Tu nombre completo y correo de contacto.</li>
                             <li>El derecho que deseas ejercer.</li>
@@ -1693,7 +1673,7 @@
                         <p>Los derechos ARCO son <strong>Acceso, Rectificación, Cancelación y Oposición</strong> al tratamiento de tus datos personales. Están reconocidos por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) en México.</p>
 
                         <h4>¿Cómo ejercerlos?</h4>
-                        <p>Envía un correo a <strong>privacidad@mertekco.github.io</strong> con la siguiente información:</p>
+                        <p>Envía un correo a <strong>[TU_CORREO_DE_PRIVACIDAD]</strong> con la siguiente información:</p>
                         <ul>
                             <li><strong>Nombre completo</strong> y correo de contacto.</li>
                             <li><strong>Derecho que deseas ejercer</strong> (Acceso, Rectificación, Cancelación u Oposición).</li>
@@ -1748,9 +1728,6 @@
             }
         });
 
-        /* ==================================================
-           FORMULARIOS
-           ================================================== */
         const mainForm = document.getElementById('contactFormMain');
         if (mainForm) {
             mainForm.addEventListener('submit', function(e) {
